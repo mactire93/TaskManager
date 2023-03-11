@@ -1,0 +1,113 @@
+<style>
+  .modal-content {
+    background-color: #212121
+  }
+</style>
+
+<!-- More Info -->
+<div class="modal fade" id="Modal-MoreInfo-{{ task.id }}"
+     tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">
+          <!-- -->
+          {{ task.name }}
+        </h5>
+        <button type="button" class="close"
+                data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ task.description }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+                data-dismiss="modal">Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Purchase Confirm -->
+<div class="modal fade" id="Modal-DoneConfirm-{{ task.id }}"
+     tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">
+          <!-- -->
+          {{ task.name }}
+        </h5>
+        <button type="button" class="close"
+                data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('done_task') }}" method="POST">
+          {{ done_form.hidden_tag() }}
+          <h4 class="text-center">
+            Czy oznaczyć zadanie jako wykonane ?
+          </h4>
+          <br>
+          <h6 class="text-center">
+            Kliknij aby przenieść na listę oznaczonych.
+          </h6>
+          <br>
+          <input id="done_task" name="done_task" type="hidden" value="{{task.id}}">
+          {{ done_form.submit(class="btn btn-outline-success btn-block") }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+                data-dismiss="modal">Zamknij
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- delete confirm modal -->
+<div class="modal fade" id="Modal-Delete-{{ task.id }}"
+     tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">
+          <!-- -->
+          {{ task.name }}
+        </h5>
+        <button type="button" class="close"
+                data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('delete_task') }}" method="POST">
+          {{ delete_form.hidden_tag() }}
+          <h4 class="text-center">
+            Chcesz usunąć zadanie ?
+          </h4>
+          <br>
+          <h6 class="text-center">
+            Kliknij aby usunąć.
+          </h6>
+          <br>
+          <input id="delete_task" name="delete_task" type="hidden" value="{{task.id}}">
+          {{ delete_form.submit(class="btn btn-outline-success btn-block") }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+                data-dismiss="modal">Zamknij
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}
+  Zarządzaj zadaniami
+{% endblock %}
+
+{% block content %}
+<style>
+    table {
+    counter-reset: rowNumber -1;
+    }
+
+    table tr {
+    counter-increment: rowNumber;
+    }
+
+    table tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2>Aktualne zadania</h2>
+                {% include 'includes/main_modals.html' %}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal-AddTask">Dodaj zadanie</button>
+                <br>
+                <table class="table table-hover table-dark">
+                <thead>
+                    <tr>
+                        <!-- Your Columns HERE -->
+                        <th scope="col">#</th>
+                        <!-- <th scope="col">ID</th> -->
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Your rows inside the table HERE: -->
+                    {% for task in tasks %}
+                    {% if task.done_task == false %}
+                    {% include 'includes/tasks_modals.html' %}
+                        <tr>
+                            <td scope="row"></td>
+                            <td>{{ task.name }}</td>
+                            <td>{{ moment(task.pub_date).format('LLL') }}</td>
+                            <td>
+                                <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ task.id }}">Notatka</button>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline btn-success" data-toggle="modal" data-target="#Modal-DoneConfirm-{{ task.id }}">Zrobione</button>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <h2>Wykonane zadania</h2>
+                {% include 'includes/main_modals.html' %}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal-Information">Informacja</button>
+                <br>
+                <table class="table table-hover table-dark">
+                <thead>
+                    <tr>
+                        <!-- Your Columns HERE -->
+                        <th scope="col">#</th>
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Data wykonania</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                    {% if task.done_task == true %}
+                    {% include 'includes/tasks_modals.html' %}
+                        <tr>
+                            <td scope="row"></td>
+                            <td>{{ task.name }}</td>
+                            <td>{{ moment(task.pub_date).format('LLL') }}</td><!-- konwersja daty na czas lokalny -->
+                            <td>
+                                <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ task.id }}">Notatka</button>
+                                <button class="btn btn-outline btn-danger" data-toggle="modal" data-target="#Modal-Delete-{{ task.id }}">Usuń</button>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
